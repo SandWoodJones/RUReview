@@ -1,5 +1,9 @@
+<?php
+require_once __DIR__ . '/../app.php';
+require_once __DIR__ . '/../controllers/avaliar_controller.php';
+?>
+
 <!DOCTYPE html>
-<?php require_once __DIR__ . '/../app.php'; ?>
 
 <html lang="pt-BR">
 
@@ -9,7 +13,7 @@
 
 <body class="bg-gray-50 min-h-screen">
     <?php require_once __DIR__ . '/../views/navbar.php'; ?>
-    <?php require_once __DIR__ . '/../views/avaliar.php'; ?>
+    <?php avaliar_page(); ?>
 </body>
 
 </html>
