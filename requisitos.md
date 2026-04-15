@@ -7,9 +7,9 @@
 - [x] Documentação de configuração e instalação `0.1`
 - [x] Padrão de estruturação de código separando lógica (controllers, models, validações) do HTML (views) — estilo MVC
 - [ ] Formulários com envio de dados ao servidor e validações server-side em PHP (não no HTML)
-- [x] Autenticação com controle de login para áreas protegidas (preferencialmente via sessão)
-- [x] Interface adequada com mensagens de feedback e erros tratados no servidor
-- [x] Pelo menos **3 telas** com formulários distintos de cadastro/edição + listagens ou tabelas (login não conta como formulário) `0.2`
+- [ ] Autenticação com controle de login para áreas protegidas (preferencialmente via sessão)
+- [ ] Interface adequada com mensagens de feedback e erros tratados no servidor
+- [ ] Pelo menos **3 telas** com formulários distintos de cadastro/edição + listagens ou tabelas (login não conta como formulário) `0.2`
 
 ## Restrições
 
