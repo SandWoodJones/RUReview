@@ -2,14 +2,14 @@
 
 ## Requisitos obrigatórios
 
-- [x] PHP 8+
-- [x] Banco de dados relacional (MySQL, MariaDB ou similar)
-- [x] Documentação de configuração e instalação
+- [x] PHP 8+ `0.1`
+- [x] Banco de dados relacional (MySQL, MariaDB ou similar) `0.1`
+- [x] Documentação de configuração e instalação `0.1`
 - [ ] Padrão de estruturação de código separando lógica (controllers, models, validações) do HTML (views) — estilo MVC
 - [ ] Formulários com envio de dados ao servidor e validações server-side em PHP (não no HTML)
 - [ ] Autenticação com controle de login para áreas protegidas (preferencialmente via sessão)
 - [ ] Interface adequada com mensagens de feedback e erros tratados no servidor
-- [ ] Pelo menos **3 telas** com formulários distintos de cadastro/edição + listagens ou tabelas (login não conta como formulário)
+- [ ] Pelo menos **3 telas** com formulários distintos de cadastro/edição + listagens ou tabelas (login não conta como formulário) `0.2`
 
 ## Restrições
 
