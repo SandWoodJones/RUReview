@@ -24,8 +24,6 @@
         </div>
     </div>
 
-    <form action="/avaliar/store" method="POST" enctype="multipart/form-data" class="bg-white border border-gray-200 rounded-xl p-5 flex flex-col gap-5">
-
     <form action="avaliar/store" method="POST" enctype="multipart/form-data" class="bg-white border border-gray-200 rounded-x1 p-5 flex flex-col gap-5">
 
         <fieldset>

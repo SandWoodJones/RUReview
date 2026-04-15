@@ -1,19 +1,15 @@
 <?php
 require_once __DIR__ . '/../app.php';
-require_once __DIR__ . '/../controllers/avaliar_controller.php';
-?>
+session_start();
 
-<!DOCTYPE html>
+$uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+$method = $_SERVER['REQUEST_METHOD'];
 
-<html lang="pt-BR">
-
-<head>
-    <?php require_once __DIR__ . '/../views/header.php'; ?>
-</head>
-
-<body class="bg-gray-50 min-h-screen">
-    <?php require_once __DIR__ . '/../views/navbar.php'; ?>
-    <?php avaliar_page(); ?>
-</body>
-
-</html>
+match (true) {
+    $uri === '/' && $method === 'GET'             => require_once __DIR__ . '/../controllers/avaliar_controller.php',
+    $uri === '/login' && $method === 'GET'        => require_once __DIR__ . '/../controllers/auth_controller.php',
+    $uri === '/login' && $method === 'POST'       => require_once __DIR__ . '/../controllers/auth_controller.php',
+    $uri === '/cadastro' && $method === 'GET'     => require_once __DIR__ . '/../controllers/auth_controller.php',
+    $uri === '/cadastrar' && $method === 'POST'   => require_once __DIR__ . '/../controllers/auth_controller.php',
+    default => http_response_code(404) && print("Página não encontrada")
+};
