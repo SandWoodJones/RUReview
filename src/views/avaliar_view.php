@@ -1,9 +1,30 @@
-<main class="max-w-2xl mx-auto px-4 py-6"
+<main class="max-w-2xl mx-auto px-4 py-6">
 
     <div class="mb-4">
-    <h1 class="text-lg font-medium text-gray-800">Avaliar cardápio</h1>
-    <p class="text-sm text-gray-500">12/04/2026</p>
+        <h1 class="text-2xl font-bold text-gray-800">Avaliar cardapio</h1>
+        <p class="text-sm text-gray-500">Hoje.</p>
     </div>
+
+    <div class="bg-blue-50 border border-blue-200 rounded-xl p-5 mb-6">
+        <h2 class="text-blue-800 font-bold mb-3 flex items-center gap-2">
+            <i class="fa-solid fa-utensils"></i> Cardápio de Hoje (Almoço)
+        </h2>
+        
+        <div class="grid grid-cols-2 gap-y-2 text-sm text-gray-700">
+            <p><span class="font-semibold">Proteína:</span> Sassami ao Molho Vermelho</p>
+            <p><span class="font-semibold">Opção Vegana:</span> Omelete</p>
+            <p><span class="font-semibold">Guarnição:</span> Polenta</p>
+            <p><span class="font-semibold">Feijão:</span> Preto</p>
+            <p><span class="font-semibold">Salada Extra:</span> Beterraba Ralada</p>
+            <p><span class="font-semibold">Sobremesa:</span> Fruta</p>
+            
+            <div class="col-span-2 mt-2 pt-2 border-t border-blue-200 text-gray-500 text-xs">
+                Acompanhamentos fixos: Arroz Branco, Arroz Integral, Mix de Folhas e Suco/Água.
+            </div>
+        </div>
+    </div>
+
+    <form action="/avaliar/store" method="POST" enctype="multipart/form-data" class="bg-white border border-gray-200 rounded-xl p-5 flex flex-col gap-5">
 
     <form action="avaliar/store" method="POST" enctype="multipart/form-data" class="bg-white border border-gray-200 rounded-x1 p-5 flex flex-col gap-5">
 
