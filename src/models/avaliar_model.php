@@ -64,3 +64,18 @@ function review_exists(int $user_id, int $meal_id): bool
 
     return $result->fetchArray() !== false;
 }
+
+function get_all_reviews(): array
+{
+    $db = db();
+
+    $result = $db->query('SELECT r.id, r.rating, r.comment, r.created_at, u.username, m.type AS meal_type, dm.date AS meal_date,
+                         (SELECT COUNT(*) FROM image WHERE review_id = r.id) AS has_image FROM review r JOIN user u ON r.user_id = u.id
+                         JOIN meal m ON r.meal_id = m.id JOIN daily_menu dm ON m.daily_menu_id = dm.id ORDER BY r.created_at DESC');
+    $reviews = [];
+    while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+        $reviews[] = $row;
+    }
+
+    return $reviews;
+}

@@ -1,9 +1,10 @@
 <?php
 
+require_once __DIR__ . '/app.php';
+
 function render(string $view, array $data = []): void
 {
     extract($data);
-    require_once __DIR__ . '/app.php';
 ?>
     <!DOCTYPE html>
     <html lang="pt-BR">
@@ -43,4 +44,8 @@ function require_admin(): void
         http_response_code(403);
         exit('Acesso negado.');
     }
+}
+
+function format_date(string $date): string {
+    return date('d/m/Y', strtotime($date));
 }
