@@ -22,6 +22,8 @@ $routes = [
 
     'GET /admin/cardapio' => ['require_admin', 'admin_cardapio_page'],
     'POST /admin/cardapio' => ['require_admin', 'admin_cardapio_store'],
+    'POST /admin/cardapio/update' => ['require_admin', 'admin_cardapio_update'],
+    'POST /admin/cardapio/delete' => ['require_admin', 'admin_cardapio_delete'],
 
     'GET /' => ['require_auth',  'avaliar_page'],
     'POST /' => ['require_auth',  'avaliar_action'],

@@ -5,17 +5,26 @@ require_once __DIR__ . '/../models/cardapio_model.php';
 
 function admin_cardapio_page(): void
 {
-    $error   = $_SESSION['flash_error']   ?? null;
+    $month = $_GET['month'] ?? date('Y-m');
+    if (!preg_match('/^\d{4}-\d{2}$/', $month)) {
+        $month = date('Y-m');
+    }
+
+    $selected = $_GET['selected'] ?? null;
+    if ($selected && !preg_match('/^\d{4}-\d{2}-\d{2}$/', $selected)) {
+        $selected = null;
+    }
+
+    $error = $_SESSION['flash_error'] ?? null;
     $success = $_SESSION['flash_success'] ?? null;
     unset($_SESSION['flash_error'], $_SESSION['flash_success']);
 
-    render('admin_cardapio_view', ['error' => $error, 'success' => $success]);
+    $month_meals = get_month_meals($month);
+    render('admin_cardapio_view', compact('error', 'success', 'month', 'month_meals', 'selected'));
 }
 
-function admin_cardapio_store(): void
+function validate_meal_fields(string $redirect_on_error): array
 {
-    $date = $_POST['date'] ?? '';
-    $type = $_POST['type'] ?? '';
     $fields = [
         'protein' => trim($_POST['protein'] ?? ''),
         'protein_vegan' => trim($_POST['protein_vegan'] ?? ''),
@@ -25,33 +34,94 @@ function admin_cardapio_store(): void
         'dessert' => trim($_POST['dessert'] ?? ''),
     ];
 
-    if (!$date || !strtotime($date)) {
-        $_SESSION['flash_error'] = 'Data inválida.';
-        redirect('/admin/cardapio');
-    }
-    if (!in_array($type, ['almoco', 'janta'], true)) {
-        $_SESSION['flash_error'] = 'Tipo de refeição inválido.';
-        redirect('/admin/cardapio');
-    }
-    foreach ($fields as $key => $value) {
+    foreach ($fields as $value) {
         if ($value === '') {
             $_SESSION['flash_error'] = 'Preencha todos os campos.';
-            redirect('/admin/cardapio');
+            redirect($redirect_on_error);
         }
     }
+
     if (!in_array($fields['beans'], ['preto', 'carioca'], true)) {
         $_SESSION['flash_error'] = 'Tipo de feijão inválido.';
-        redirect('/admin/cardapio');
-    }
-    if (meal_exists($date, $type)) {
-        $_SESSION['flash_error'] = 'Já existe um cardápio cadastrado para esta data e tipo.';
-        redirect('/admin/cardapio');
+        redirect($redirect_on_error);
     }
 
+    return $fields;
+}
+
+function admin_cardapio_store(): void
+{
+    $date = $_POST['date'] ?? '';
+    $month = preg_match('/^\d{4}-\d{2}/', $date) ? substr($date, 0, 7) : date('Y-m');
+    $redirect_err = "/admin/cardapio?month={$month}&selected={$date}";
+    if (!$date || !strtotime($date)) {
+        $_SESSION['flash_error'] = 'Data inválida.';
+        redirect($redirect_err);
+    }
+
+    $type = $_POST['type'] ?? '';
+    if (!in_array($type, ['almoco', 'janta'], true)) {
+        $_SESSION['flash_error'] = 'Tipo de refeição inválido.';
+        redirect($redirect_err);
+    }
+
+    if (meal_exists($date, $type)) {
+        $_SESSION['flash_error'] = 'Já existe um cardápio cadastrado para esta data e tipo.';
+        redirect($redirect_err);
+    }
+
+    $fields = validate_meal_fields($redirect_err);
     store_meal($date, $type, $fields);
 
     $_SESSION['flash_success'] = 'Cardápio salvo com sucesso.';
-    redirect('/admin/cardapio');
+    redirect('/admin/cardapio?month={$month}&selected={$date}');
+}
+
+function admin_cardapio_update(): void
+{
+    $meal_id = filter_input(INPUT_POST, 'meal_id', FILTER_VALIDATE_INT);
+
+    if (!$meal_id) {
+        $_SESSION['flash_error'] = 'Refeição inválida.';
+        redirect('/admin/cardapio');
+    }
+
+    $meal = get_meal_by_id($meal_id);
+    if (!$meal) {
+        $_SESSION['flash_error'] = 'Refeição não encontrada.';
+        redirect('/admin/cardapio');
+    }
+
+    $month = substr($meal['date'], 0, 7);
+    $redirect_err = "/admin/cardapio?month={$month}&selected={$meal['date']}";
+
+    $fields = validate_meal_fields($redirect_err);
+    update_meal($meal_id, $fields);
+
+    $_SESSION['flash_success'] = 'Cardápio atualizado com sucesso.';
+    redirect("/admin/cardapio?month={$month}&selected={$meal['date']}");
+}
+
+function admin_cardapio_delete(): void
+{
+    $meal_id = filter_input(INPUT_POST, 'meal_id', FILTER_VALIDATE_INT);
+
+    if (!$meal_id) {
+        $_SESSION['flash_error'] = 'Refeição inválida.';
+        redirect('/admin/cardapio');
+    }
+
+    $meal = get_meal_by_id($meal_id);
+    if (!$meal) {
+        $_SESSION['flash_error'] = 'Refeição não encontrada.';
+        redirect('/admin/cardapio');
+    }
+
+    $month = substr($meal['date'], 0, 7);
+    delete_meal($meal_id);
+
+    $_SESSION['flash_success'] = 'Refeição removida com sucesso.';
+    redirect("/admin/cardapio?month={$month}&selected={$meal['date']}");
 }
 
 function admin_reviews_page(): void
