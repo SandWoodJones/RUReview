@@ -33,7 +33,7 @@ if ($uri === '/' && $method === 'GET') {
     avaliar_page();
     exit();
 }
-if ($uri === '/' && $method === 'GET') {
+if ($uri === '/' && $method === 'POST') {
     avaliar_action();
     exit();
 }

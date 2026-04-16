@@ -1,4 +1,6 @@
 <?php
+
+require_once __DIR__ . '/../helpers.php';
 require_once __DIR__ . '/../models/avaliar_model.php';
 
 function avaliar_page(): void
@@ -9,7 +11,11 @@ function avaliar_page(): void
 
     unset($_SESSION['flash_errors'], $_SESSION['flash_success']);
 
-    require __DIR__ . '/../views/avaliar_view.php';
+    render('avaliar_view', [
+        'refeicoes' => $refeicoes,
+        'errors' => $errors,
+        'success' => $success
+    ]);
 }
 
 function avaliar_action(): void
