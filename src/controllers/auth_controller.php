@@ -2,30 +2,32 @@
 
 require_once __DIR__ . '/../models/user_model.php';
 
-
 function render(string $view, array $data = []): void
 {
-    extract($data); 
+    extract($data);
     require_once __DIR__ . '/../app.php';
-    ?>
+?>
     <!DOCTYPE html>
     <html lang="pt-BR">
+
     <head>
         <?php require_once __DIR__ . '/../views/header.php'; ?>
     </head>
+
     <body class="bg-gray-50 min-h-screen">
-        
-        <?php 
+
+        <?php
         if (isset($_SESSION['user_id'])) {
-            require_once __DIR__ . '/../views/navbar.php'; 
+            require_once __DIR__ . '/../views/navbar.php';
         }
         ?>
 
         <?php require_once __DIR__ . "/../views/{$view}.php"; ?>
-        
+
     </body>
+
     </html>
-    <?php
+<?php
 }
 
 
@@ -54,7 +56,7 @@ function login_action(): void
     $username = trim($_POST['username'] ?? '');
     $password = $_POST['password'] ?? '';
 
-    
+
     if ($username === '' || $password === '') {
         session_set_error('Preencha todos os campos.');
         redirect('/login');
@@ -62,12 +64,12 @@ function login_action(): void
 
     $user = find_user_by_username($username);
 
-    if (!$user || !password_verify($password, $user['password'])) {
+    if (!$user || $user['password'] !== $password) {
         session_set_error('Usuário ou senha inválidos.');
         redirect('/login');
     }
 
-    
+
     $_SESSION['user_id']  = $user['id'];
     $_SESSION['username']  = $user['username'];
     $_SESSION['is_admin']  = (bool) $user['is_admin'];
@@ -81,7 +83,7 @@ function cadastrar_action(): void
     $password         = $_POST['password']         ?? '';
     $password_confirm = $_POST['password_confirm'] ?? '';
 
-    
+
     if ($username === '' || $password === '') {
         session_set_error('Preencha todos os campos.');
         redirect('/cadastro');
@@ -104,7 +106,7 @@ function cadastrar_action(): void
         redirect('/cadastro');
     }
 
-    
+
     $_SESSION['success'] = 'Conta criada! Faça login para continuar.';
     redirect('/login');
 }

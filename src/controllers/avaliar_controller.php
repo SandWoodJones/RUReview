@@ -1,11 +1,7 @@
 <?php
 require_once __DIR__ . '/../models/avaliar_model.php';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    store();
-}
-
-function avaliar(): void
+function avaliar_page(): void
 {
     $refeicoes = get_today_meals();
     $errors = $_SESSION['flash_errors'] ?? [];
@@ -16,7 +12,7 @@ function avaliar(): void
     require __DIR__ . '/../views/avaliar_view.php';
 }
 
-function store(): void
+function avaliar_action(): void
 {
     $user_id = 1; // TODO
     $meal_id = filter_input(INPUT_POST, 'meal_id', FILTER_VALIDATE_INT);

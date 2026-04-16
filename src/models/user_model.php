@@ -16,12 +16,11 @@ function find_user_by_username(string $username): array|false
 function create_user(string $username, string $password): bool
 {
     $db   = db();
-    $hash = password_hash($password, PASSWORD_DEFAULT);
 
     try {
         $stmt = $db->prepare('INSERT INTO user (username, password) VALUES (:username, :password)');
         $stmt->bindValue(':username', $username, SQLITE3_TEXT);
-        $stmt->bindValue(':password', $hash,     SQLITE3_TEXT);
+        $stmt->bindValue(':password', $password,     SQLITE3_TEXT);
         $stmt->execute();
         return true;
     } catch (Exception $e) {
