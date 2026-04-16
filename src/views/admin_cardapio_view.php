@@ -7,7 +7,19 @@
         </div>
     </div>
 
-    <form action="/admin/cardapio/store" method="POST" class="bg-white shadow-md rounded-lg p-6">
+    <?php if ($success ?? null): ?>
+        <div class="mb-4 bg-green-100 border border-green-400 text-green-700 px-4 py-2 rounded text-sm">
+            <?= htmlspecialchars($success) ?>
+        </div>
+    <?php endif; ?>
+
+    <?php if ($error ?? null): ?>
+        <div class="mb-4 bg-red-100 border border-red-400 text-red-700 px-4 py-2 rounded text-sm">
+            <?= htmlspecialchars($error) ?>
+        </div>
+    <?php endif; ?>
+
+    <form action="/admin/cardapio" method="POST" class="bg-white shadow-md rounded-lg p-6">
         
         <div class="grid grid-cols-2 gap-4 mb-6 pb-6 border-b border-gray-200">
             <div>
