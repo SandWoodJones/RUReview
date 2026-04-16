@@ -5,7 +5,7 @@
 ## Integrantes
 
 - Raul Rodrigues de Oliveira (242272)
-- Gabryel Kopp
+- Gabryel Kopp (2398419)
 
 ## Sobre
 
