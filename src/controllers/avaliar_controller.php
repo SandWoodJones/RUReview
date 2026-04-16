@@ -20,7 +20,6 @@ function avaliar_page(): void
 
 function avaliar_action(): void
 {
-    $user_id = 1; // TODO
     $meal_id = filter_input(INPUT_POST, 'meal_id', FILTER_VALIDATE_INT);
     $rating = filter_input(INPUT_POST, 'rating', FILTER_VALIDATE_INT);
     $comment = trim($_POST['comment'] ?? '');
@@ -46,12 +45,12 @@ function avaliar_action(): void
         }
     }
 
-    if (empty($errors) && review_exists($user_id, $meal_id)) {
+    if (empty($errors) && review_exists($_SESSION['user_id'], $meal_id)) {
         $errors[] = "Você já avaliou essa refeição.";
     }
 
     if (empty($errors)) {
-        store_review($user_id, $meal_id, $rating, $comment ?: null, $image);
+        store_review($_SESSION['user_id'], $meal_id, $rating, $comment ?: null, $image);
         $_SESSION['flash_success'] = true;
     } else {
         $_SESSION['flash_errors'] = $errors;
