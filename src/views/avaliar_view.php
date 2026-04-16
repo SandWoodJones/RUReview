@@ -1,7 +1,7 @@
 <main class="max-w-5xl mx-auto px-4 py-6">
     <div class="mb-6">
         <h1 class="text-xl font-semibold text-gray-800">Avaliar cardápio</h1>
-        <p class="text-sm text-gray-500"><?= format_date(date('d/m/Y')) ?></p>
+        <p class="text-sm text-gray-500"><?= date('d/m/Y') ?></p>
     </div>
 
     <?php if (!empty($errors)): ?>

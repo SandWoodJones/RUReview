@@ -45,7 +45,3 @@ function require_admin(): void
         exit('Acesso negado.');
     }
 }
-
-function format_date(string $date): string {
-    return date('d/m/Y', strtotime($date));
-}
