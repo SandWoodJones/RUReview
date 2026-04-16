@@ -16,7 +16,7 @@ function render(string $view, array $data = []): void
         <?php if (isset($_SESSION['user_id'])): ?>
             <?php require_once __DIR__ . '/views/navbar.php'; ?>
         <?php endif; ?>
-        <?php require_once __DIR__ . "/views/{$view}.php"; ?>
+        <?php require __DIR__ . "/views/{$view}.php"; ?>
     </body>
 
     </html>
@@ -27,4 +27,20 @@ function redirect(string $url): void
 {
     header("Location: {$url}");
     exit();
+}
+
+function require_auth(): void
+{
+    if (!isset($_SESSION['user_id'])) {
+        redirect('/login');
+    }
+}
+
+function require_admin(): void
+{
+    require_auth();
+    if (empty($_SESSION['is_admin'])) {
+        http_response_code(403);
+        exit('Acesso negado.');
+    }
 }
