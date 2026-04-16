@@ -7,8 +7,7 @@
         <span class="text-sm text-gray-500">Olá, <?= htmlspecialchars($_SESSION['username']) ?></span>
 
         <form action="/logout" method="POST" class="inline">
-            <button type="submit" class="text-sm text-red-500 hover:underline ml-4">Sair</button>
+            <button type="submit" class="text-sm text-red-500 hover:underline ml-4 cursor-pointer">Sair</button>
         </form>
-        
     </div>
 </nav>
