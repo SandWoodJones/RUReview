@@ -4,7 +4,7 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 use Dotenv\Dotenv;
 
-function db(): SQLite3
+function db(): PDO
 {
     static $db = null;
 
@@ -12,8 +12,9 @@ function db(): SQLite3
         $dotenv = Dotenv::createImmutable(__DIR__ . '/..');
         $dotenv->load();
 
-        $db = new SQLite3(__DIR__ . '/../' . $_ENV['DB_PATH']);
-        $db->enableExceptions(true);
+        $db = new PDO('sqlite:' . __DIR__ . '/../' . $_ENV['DB_PATH']);
+        $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
         $db->exec('PRAGMA foreign_keys = ON');
     };
 

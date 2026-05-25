@@ -30,7 +30,7 @@
 
 - [ ] PHP 8+ com Orientação a Objetos
 - [x] Composer com Autoload e uso de packages PHP
-- [ ] Banco de dados via PDO (MySQL, MariaDB, PostgreSQL ou outro)
+- [x] Banco de dados via PDO (MySQL, MariaDB, PostgreSQL ou outro)
 - [ ] Sistema de rotas com URLs transparentes
 - [ ] Padrão MVC mantido e melhorado em relação ao Trabalho 1
 - [ ] Documentação de configuração e instalação atualizada

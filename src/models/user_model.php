@@ -6,10 +6,9 @@ function find_user_by_username(string $username): array|false
 {
     $db   = db();
     $stmt = $db->prepare('SELECT * FROM user WHERE username = :username');
-    $stmt->bindValue(':username', $username, SQLITE3_TEXT);
-    $result = $stmt->execute();
+    $stmt->execute([':username' => $username]);
 
-    return $result->fetchArray(SQLITE3_ASSOC);
+    return $stmt->fetch();
 }
 
 
@@ -19,9 +18,7 @@ function create_user(string $username, string $password): bool
 
     try {
         $stmt = $db->prepare('INSERT INTO user (username, password) VALUES (:username, :password)');
-        $stmt->bindValue(':username', $username, SQLITE3_TEXT);
-        $stmt->bindValue(':password', $password,     SQLITE3_TEXT);
-        $stmt->execute();
+        $stmt->execute([':username' => $username, ':password' => $password]);
         return true;
     } catch (Exception $e) {
         return false;
