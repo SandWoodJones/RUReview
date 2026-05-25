@@ -27,7 +27,7 @@
             foreach ($tipos as $tipo => $meta):
                 if (!isset($refeicoes[$tipo])) continue;
                 $refeicao = $refeicoes[$tipo];
-                $jaAvaliou = review_exists($_SESSION['user_id'], $refeicao['id']);
+                $jaAvaliou = \App\Models\AvaliarModel::reviewExists($_SESSION['user_id'], $refeicao['id']);
                 $color = $meta['color'];
             ?>
 

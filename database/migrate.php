@@ -1,8 +1,10 @@
 <?php
 
-require_once __DIR__ . '/../src/database.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 
-$db = db();
+use App\Database\Connection;
+
+$db = Connection::get();
 $schema = file_get_contents(__DIR__ . '/schema.sql');
 
 $statements = array_filter(
