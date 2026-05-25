@@ -29,7 +29,7 @@
 ## Requisitos obrigatórios
 
 - [ ] PHP 8+ com Orientação a Objetos
-- [ ] Composer com Autoload e uso de packages PHP
+- [x] Composer com Autoload e uso de packages PHP
 - [ ] Banco de dados via PDO (MySQL, MariaDB, PostgreSQL ou outro)
 - [ ] Sistema de rotas com URLs transparentes
 - [ ] Padrão MVC mantido e melhorado em relação ao Trabalho 1

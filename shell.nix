@@ -6,5 +6,6 @@ pkgs.mkShell {
     php
     intelephense
     sqlite
+    phpPackages.composer
   ];
 }

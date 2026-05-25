@@ -1,2 +1,3 @@
 .direnv/
 database/rureview.sqlite
+vendor/
