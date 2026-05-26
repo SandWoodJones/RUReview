@@ -6,45 +6,78 @@ require_once __DIR__ . '/../helpers.php';
 use App\Controllers\AuthController;
 use App\Controllers\AdminController;
 use App\Controllers\AvaliarController;
+use App\Controllers\ImageController;
+use FastRoute\Dispatcher;
+use FastRoute\RouteCollector;
+use function FastRoute\simpleDispatcher;
 
 session_start();
 
-$uri    = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-$method = $_SERVER['REQUEST_METHOD'];
+$routeDefs = [
+    ['GET',  '/login',                 false, false, [AuthController::class,  'loginPage']],
+    ['POST', '/login',                 false, false, [AuthController::class,  'loginAction']],
+    ['GET',  '/cadastro',              false, false, [AuthController::class,  'cadastroPage']],
+    ['POST', '/cadastrar',             false, false, [AuthController::class,  'cadastrarAction']],
+    ['POST', '/logout',                false, true,  [AuthController::class,  'logoutAction']],
 
-$routes = [
-    'GET /login' => ['require_auth' => false, 'action' => [AuthController::class, 'loginPage']],
-    'POST /login' => ['require_auth' => false, 'action' => [AuthController::class, 'loginAction']],
+    ['GET',  '/',                      false, true,  [AvaliarController::class, 'avaliarPage']],
+    ['POST', '/',                      false, true,  [AvaliarController::class, 'avaliarAction']],
 
-    'GET /cadastro' => ['require_auth' => false, 'action' => [AuthController::class, 'cadastroPage']],
-    'POST /cadastrar' => ['require_auth' => false, 'action' => [AuthController::class, 'cadastrarAction']],
+    ['GET',  '/admin/cardapio',        true,  true,  [AdminController::class, 'cardapioPage']],
+    ['POST', '/admin/cardapio',        true,  true,  [AdminController::class, 'cardapioStore']],
+    ['POST', '/admin/cardapio/update', true,  true,  [AdminController::class, 'cardapioUpdate']],
+    ['POST', '/admin/cardapio/delete', true,  true,  [AdminController::class, 'cardapioDelete']],
 
-    'POST /logout' => ['require_auth' => true, 'action' => [AuthController::class, 'logoutAction']],
+    ['GET',  '/admin/avaliacoes',      true,  true,  [AdminController::class, 'reviewsPage']],
 
-    'GET /admin/cardapio' => ['require_admin' => true, 'action' => [AdminController::class, 'cardapioPage']],
-    'POST /admin/cardapio' => ['require_admin' => true, 'action' => [AdminController::class, 'cardapioStore']],
-    'POST /admin/cardapio/update' => ['require_admin' => true, 'action' => [AdminController::class, 'cardapioUpdate']],
-    'POST /admin/cardapio/delete' => ['require_admin' => true, 'action' => [AdminController::class, 'cardapioDelete']],
-
-    'GET /' => ['require_auth' => true, 'action' => [AvaliarController::class, 'avaliarPage']],
-    'POST /' => ['require_auth' => true, 'action' => [AvaliarController::class, 'avaliarAction']],
-
-    'GET /admin/avaliacoes' => ['require_admin' => true, 'action' => [AdminController::class, 'reviewsPage']],
+    ['GET',  '/imagem/{id:\d+}',       false, true,  [ImageController::class, 'serve']],
 ];
 
-$key = $method . ' ' . $uri;
-$route = $routes[$key] ?? null;
+$dispatcher = simpleDispatcher(function (RouteCollector $r) use ($routeDefs) {
+    foreach ($routeDefs as [$method, $path, , , $action]) {
+        $r->addRoute($method, $path, $action);
+    }
+});
 
-if (!$route) {
-    http_response_code(404);
-    exit('Página não encontrada.');
+$authMap = [];
+foreach ($routeDefs as [$method, $path, $admin, $auth, $action]) {
+    $authMap[$method . ' ' . $path] = ['admin' => $admin, 'auth' => $auth];
 }
 
-if (!empty($route['require_admin'])) {
-    require_admin();
-} elseif (!empty($route['require_auth'])) {
-    require_auth();
-}
+$httpMethod = $_SERVER['REQUEST_METHOD'];
+$uri        = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
-[$class, $method] = $route['action'];
-$class::$method();
+$routeInfo = $dispatcher->dispatch($httpMethod, $uri);
+
+switch ($routeInfo[0]) {
+    case Dispatcher::NOT_FOUND:
+        http_response_code(404);
+        exit('Página não encontrada.');
+
+    case Dispatcher::METHOD_NOT_ALLOWED:
+        http_response_code(405);
+        exit('Método não permitido.');
+
+    case Dispatcher::FOUND:
+        [$class, $method] = $routeInfo[1];
+        $vars = $routeInfo[2]; 
+
+        $requireAdmin = false;
+        $requireAuth  = false;
+        foreach ($routeDefs as [$defMethod, $defPath, $admin, $auth, $action]) {
+            if ($action[0] === $class && $action[1] === $method && $defMethod === $httpMethod) {
+                $requireAdmin = $admin;
+                $requireAuth  = $auth;
+                break;
+            }
+        }
+
+        if ($requireAdmin) {
+            require_admin();
+        } elseif ($requireAuth) {
+            require_auth();
+        }
+
+        $class::$method($vars);
+        break;
+}

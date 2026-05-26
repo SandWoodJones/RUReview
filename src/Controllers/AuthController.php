@@ -30,22 +30,22 @@ class AuthController
 
         $user = UserModel::findByUsername($username);
 
-        if (!$user || $user['password'] !== $password) {
+        if (!$user || !password_verify($password, $user['password'])) {
             self::setError('Usuário ou senha inválidos.');
             redirect('/login');
         }
 
         $_SESSION['user_id']  = $user['id'];
-        $_SESSION['username']  = $user['username'];
-        $_SESSION['is_admin']  = (bool) $user['is_admin'];
+        $_SESSION['username'] = $user['username'];
+        $_SESSION['is_admin'] = (bool) $user['is_admin'];
 
         redirect('/');
     }
 
     public static function cadastrarAction(): void
     {
-        $username = trim($_POST['username'] ?? '');
-        $password = $_POST['password'] ?? '';
+        $username         = trim($_POST['username'] ?? '');
+        $password         = $_POST['password'] ?? '';
         $password_confirm = $_POST['password_confirm'] ?? '';
 
         if ($username === '' || $password === '') {
@@ -63,7 +63,8 @@ class AuthController
             redirect('/cadastro');
         }
 
-        $ok = UserModel::create($username, $password);
+        $hash = password_hash($password, PASSWORD_DEFAULT);
+        $ok   = UserModel::create($username, $hash);
 
         if (!$ok) {
             self::setError('Este nome de usuário já está em uso.');
