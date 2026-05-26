@@ -30,7 +30,7 @@ class AuthController
 
         $user = UserModel::findByUsername($username);
 
-        if (!$user || !password_verify($password, $user['password'])) {
+        if (!$user || $user['password'] !== $password) {
             self::setError('Usuário ou senha inválidos.');
             redirect('/login');
         }
@@ -63,8 +63,7 @@ class AuthController
             redirect('/cadastro');
         }
 
-        $hash = password_hash($password, PASSWORD_DEFAULT);
-        $ok   = UserModel::create($username, $hash);
+        $ok = UserModel::create($username, $password);
 
         if (!$ok) {
             self::setError('Este nome de usuário já está em uso.');
