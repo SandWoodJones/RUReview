@@ -1,0 +1,63 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+      {
+        "label": "RUReview: iniciar servidor",
+        "type": "shell",
+        "command": "php -S localhost:8000 -t src/public src/public/index.php",
+        "group": {
+          "kind": "build",
+          "isDefault": true
+        },
+        "presentation": {
+          "reveal": "always",
+          "panel": "dedicated",
+          "focus": false
+        },
+        "isBackground": true,
+        "problemMatcher": {
+          "pattern": {
+            "regexp": "^(.*)$",
+            "file": 1,
+            "line": 1,
+            "message": 1
+          },
+          "background": {
+            "activeOnStart": true,
+            "beginsPattern": "PHP",
+            "endsPattern": "Development Server"
+          }
+        }
+      },
+      {
+        "label": "RUReview: instalar dependências",
+        "type": "shell",
+        "command": "composer install",
+        "group": "build",
+        "presentation": {
+          "reveal": "always",
+          "panel": "shared"
+        }
+      },
+      {
+        "label": "RUReview: criar banco",
+        "type": "shell",
+        "command": "php database/migrate.php",
+        "group": "build",
+        "presentation": {
+          "reveal": "always",
+          "panel": "shared"
+        }
+      },
+      {
+        "label": "RUReview: seed (admin)",
+        "type": "shell",
+        "command": "php database/seed.php",
+        "group": "build",
+        "presentation": {
+          "reveal": "always",
+          "panel": "shared"
+        }
+      }
+    ]
+  }
