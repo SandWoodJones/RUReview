@@ -84,7 +84,7 @@ function fmt_date(string $date): string
                             <div class="mt-3">
                                 <button
                                     type="button"
-                                    class="text-sm text-blue-600 hover:text-blue-800 flex items-center gap-1"
+                                    class="text-sm text-blue-600 hover:text-blue-800 flex items-center gap-1 cursor-pointer"
                                     onclick="toggleImage(this, <?= (int) $img['id'] ?>)">
                                     <i class="fa-solid fa-image"></i> Ver foto
                                 </button>
