@@ -39,11 +39,6 @@ $dispatcher = simpleDispatcher(function (RouteCollector $r) use ($routeDefs) {
     }
 });
 
-$authMap = [];
-foreach ($routeDefs as [$method, $path, $admin, $auth, $action]) {
-    $authMap[$method . ' ' . $path] = ['admin' => $admin, 'auth' => $auth];
-}
-
 $httpMethod = $_SERVER['REQUEST_METHOD'];
 $uri        = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
