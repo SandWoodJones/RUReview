@@ -31,11 +31,11 @@
 - [x] PHP 8+ com Orientação a Objetos
 - [x] Composer com Autoload e uso de packages PHP
 - [x] Banco de dados via PDO (MySQL, MariaDB, PostgreSQL ou outro)
-- [ ] Sistema de rotas com URLs transparentes
+- [x] Sistema de rotas com URLs transparentes
 - [x] Padrão MVC mantido e melhorado em relação ao Trabalho 1
 - [x] Documentação de configuração e instalação atualizada
 - [x] Interface adequada com mensagens de feedback e erros
-- [ ] Melhorias e correções aplicadas a partir do Trabalho 1
+- [x] Melhorias e correções aplicadas a partir do Trabalho 1
 
 ## Requisitos opcionais
 
