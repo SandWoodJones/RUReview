@@ -1,3 +1,4 @@
 .direnv/
+.envrc.local
 database/rureview.sqlite
 vendor/

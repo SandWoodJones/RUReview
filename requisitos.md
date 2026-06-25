@@ -58,3 +58,45 @@
 - Qualidade das melhorias em relação ao Trabalho 1
 
 A nota final é composta pela **apresentação + análise do código fonte**.
+
+---
+
+# Requisitos do trabalho 3
+
+## Sobre
+
+Desenvolvimento de uma **API (Web Service) em Laravel** no mesmo contexto/tema do projeto
+(RUReview). A API expõe os dados e funcionalidades do sistema (usuários, cardápios, refeições
+e avaliações) para que aplicações/empresas terceiras possam se integrar. Os controllers retornam
+**apenas JSON** — não há views. A API é protegida por autenticação baseada em tokens (Laravel Sanctum).
+
+## Requisitos obrigatórios
+
+- [ ] API desenvolvida em **Laravel** (estrutura MVC do framework)
+- [ ] Definição de rotas **exclusivamente para API** (`routes/api.php`)
+- [ ] Controllers retornando **somente JSON** (sem construção de views)
+- [ ] Validação de campos nos controllers para **gravação e atualização** (validators do Laravel ou customizados)
+- [ ] Models conectados ao banco via **Eloquent**, com criação das **migrations**
+- [ ] Relacionamentos entre models e **propriedades protegidas** (ex.: senha em `$hidden`, `$fillable`/`$guarded`)
+- [ ] Padrão de **resposta JSON unificado** (ex.: campos `status`, `data`, `message`)
+- [ ] Rotas de criação, atualização, consulta e remoção — **POST, PUT, GET e DELETE**
+- [ ] **Autenticação da API com tokens** (Laravel Sanctum), enviados no header `Authorization: Bearer <token>`
+
+## Entrega
+
+- [ ] Repositório **público** no GitHub com histórico de commits de **ambos** os integrantes
+- [ ] `main` com a versão a ser entregue (desenvolvimento em outras branches)
+- [ ] README com nomes dos integrantes e **relatório** (particularidades, bugs, funcionalidades faltantes, instalação)
+- [ ] Descrição das **atividades desenvolvidas por cada integrante**
+- [ ] Código-fonte em PHP/Laravel
+- [ ] Documentação de instalação e configuração
+- [ ] **Coleção de testes** exportada (Insomnia / Postman / Thunder Client) salva na pasta do projeto,
+      com instruções de importação — **ou** testes em PHP (Guzzle / PHPUnit)
+- [ ] Lista de testes documentada: rotas + dados de teste
+- [ ] Apenas **um** integrante envia o link do repositório no Moodle
+
+## Observações
+
+- Diferentemente dos trabalhos 1 e 2, **o uso do Laravel é obrigatório** neste trabalho.
+- Recomenda-se clonar o projeto em outra máquina e validar a instalação a partir da documentação
+  antes da entrega.
