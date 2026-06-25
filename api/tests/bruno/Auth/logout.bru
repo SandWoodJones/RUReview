@@ -1,0 +1,30 @@
+meta {
+  name: Logout
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{base_url}}/logout
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+headers {
+  Accept: application/json
+}
+
+tests {
+  test("status 200", function () {
+    expect(res.status).to.equal(200);
+  });
+}
+
+docs {
+  Revoga o token atual. Apos rodar esta requisicao, refaca o Login
+  para obter um novo token antes de chamar rotas autenticadas.
+}

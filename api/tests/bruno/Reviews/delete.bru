@@ -1,0 +1,25 @@
+meta {
+  name: Delete review
+  type: http
+  seq: 4
+}
+
+delete {
+  url: {{base_url}}/reviews/{{review_id}}
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+headers {
+  Accept: application/json
+}
+
+tests {
+  test("status 200", function () {
+    expect(res.status).to.equal(200);
+  });
+}

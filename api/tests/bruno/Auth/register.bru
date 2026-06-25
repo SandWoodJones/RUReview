@@ -1,0 +1,41 @@
+meta {
+  name: Register
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{base_url}}/register
+  body: json
+  auth: none
+}
+
+headers {
+  Accept: application/json
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "name": "teste",
+    "password": "senha123"
+  }
+}
+
+script:post-response {
+  if (res.body && res.body.data && res.body.data.token) {
+    bru.setEnvVar("token", res.body.data.token);
+  }
+}
+
+tests {
+  test("status 201", function () {
+    expect(res.status).to.equal(201);
+  });
+  test("retorna token", function () {
+    expect(res.body.data.token).to.be.a("string");
+  });
+  test("nao vaza senha", function () {
+    expect(res.body.data.user.password).to.be.undefined;
+  });
+}

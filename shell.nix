@@ -7,5 +7,6 @@ pkgs.mkShell {
     intelephense
     sqlite
     phpPackages.composer
+    bruno
   ];
 }

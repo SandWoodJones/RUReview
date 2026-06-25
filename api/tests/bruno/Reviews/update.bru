@@ -1,0 +1,38 @@
+meta {
+  name: Update review
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{base_url}}/reviews/{{review_id}}
+  body: multipartForm
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+headers {
+  Accept: application/json
+}
+
+body:multipart-form {
+  _method: PUT
+  rating: 4
+  comment: Editado: continua bom.
+  ~image: @file()
+}
+
+tests {
+  test("status 200", function () {
+    expect(res.status).to.equal(200);
+  });
+}
+
+docs {
+  Usa POST + _method=PUT (method spoofing do Laravel) porque alguns clientes
+  nao enviam arquivos corretamente em requisicoes PUT multipart. Editar a
+  avaliacao de outro usuario deve retornar 403.
+}

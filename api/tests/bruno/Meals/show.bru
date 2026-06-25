@@ -1,0 +1,21 @@
+meta {
+  name: Show meal
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{base_url}}/meals/{{meal_id}}
+  body: none
+  auth: none
+}
+
+headers {
+  Accept: application/json
+}
+
+tests {
+  test("status 200", function () {
+    expect(res.status).to.equal(200);
+  });
+}

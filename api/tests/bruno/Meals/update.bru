@@ -1,0 +1,37 @@
+meta {
+  name: Update meal (admin)
+  type: http
+  seq: 4
+}
+
+put {
+  url: {{base_url}}/meals/{{meal_id}}
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+headers {
+  Accept: application/json
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "protein": "Carne assada",
+    "protein_vegan": "Lentilha",
+    "beans": "carioca",
+    "carb_extra": "Batata",
+    "salad_extra": "Rucula",
+    "dessert": "Gelatina"
+  }
+}
+
+tests {
+  test("status 200", function () {
+    expect(res.status).to.equal(200);
+  });
+}

@@ -1,0 +1,51 @@
+meta {
+  name: Create meal (admin)
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{base_url}}/meals
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+headers {
+  Accept: application/json
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "date": "2026-06-25",
+    "type": "almoco",
+    "protein": "Frango grelhado",
+    "protein_vegan": "Grao-de-bico",
+    "beans": "preto",
+    "carb_extra": "Farofa",
+    "salad_extra": "Alface e tomate",
+    "dessert": "Banana"
+  }
+}
+
+script:post-response {
+  if (res.body && res.body.data && res.body.data.id) {
+    bru.setEnvVar("meal_id", res.body.data.id);
+  }
+}
+
+tests {
+  test("status 201", function () {
+    expect(res.status).to.equal(201);
+  });
+}
+
+docs {
+  Requer token de um usuario admin (faca Login como admin antes).
+  Com token de usuario comum, deve retornar 403.
+  Repetir a mesma data+tipo deve retornar 409.
+}

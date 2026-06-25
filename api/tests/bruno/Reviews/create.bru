@@ -1,0 +1,51 @@
+meta {
+  name: Create review
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{base_url}}/reviews
+  body: multipartForm
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+headers {
+  Accept: application/json
+}
+
+body:multipart-form {
+  meal_id: {{meal_id}}
+  rating: 5
+  comment: Muito bom, recomendo.
+  ~image: @file()
+}
+
+script:post-response {
+  if (res.body && res.body.data && res.body.data.id) {
+    bru.setEnvVar("review_id", res.body.data.id);
+  }
+  if (res.body && res.body.data && res.body.data.image && res.body.data.image.id) {
+    bru.setEnvVar("image_id", res.body.data.image.id);
+  }
+}
+
+tests {
+  test("status 201", function () {
+    expect(res.status).to.equal(201);
+  });
+  test("avaliacao criada", function () {
+    expect(res.body.data.rating).to.equal(5);
+  });
+}
+
+docs {
+  Body em multipart/form-data porque permite upload de arquivo.
+  O campo "image" esta desabilitado (~) por padrao. Para testar o upload,
+  habilite-o e selecione um arquivo (jpg/png/webp, ate 2MB) no seletor do Bruno.
+  Avaliar a mesma refeicao duas vezes com o mesmo usuario deve retornar 409.
+}
